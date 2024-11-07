@@ -33,8 +33,8 @@ def upload():
         output_image = Image.open(io.BytesIO(output_data))
         output_image = output_image.convert('RGBA')
 
-        output_path = os.path.join(app.config['UPLOAD_FOLDER'], 'no_background'+file.filename)
-        output_image.save(output_path,'PNG')
+        output_path = os.path.join(app.config['UPLOAD_FOLDER'], 'no_background_'+file.filename)
+        output_image.save(output_path, 'png')
 
         return send_file(output_path, mimetype='image/png')
 

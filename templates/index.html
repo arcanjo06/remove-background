@@ -3,16 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='icon.png') }}">
     <title>Remove Background</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Lucida Grande';
+            background-color: rgb(216, 216, 216);
+        }
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            margin-top: 3%;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 50px;
+            background-color: whitesmoke;
+            width: 45vw;
+            height: 75vh;
+            border-radius: 20px;
+        }
+        .file-upload-area {
+            border: 2px dashed #ccc;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            color: #555;
+            background-color: #f3f3f3;
+            transition: background-color 0.3s ease;
+        }
+
+        .file-upload-area:hover {
+            background-color: #cecece;
+        }
+
+        .file-upload-area p {
+            margin: 0;
+        }
+
+        .file-upload-area i {
+            font-size: 48px; /* Tamanho do ícone */
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        #file-input {
+            display: none; /* Esconde o input */
+        }
+
+        button{
+            margin-top: 25px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover{
+            background-color: #003772;
+        }
+    </style>
 </head>
 <body>
 
     <h1>Remove Background</h1>
 
-    <form action="/upload" method="POST" enctype="multipart/form-data">
-        <input type="file" name="file" accept="image/*" required>
-        <button type="submit" name="submit">Remover Background</button>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <div class="file-upload-area" onclick="document.getElementById('file-input').click()">
+            <i class="fas fa-camera"></i>
+            <img id="selected-image" src="" alt="Imagem selecionada" class="preview-image" hidden width="300px" max-height="auto">
+            <p id="text">Clique ou arraste uma imagem aqui</p>
+            <input type="file" id="file-input" name="file" accept="image/*" onchange="displayImage(event)">
+        </div>
+        <button type="submit">Enviar Imagem</button>
     </form>
     
+    <script>
+        function displayImage(event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('selected-image');
+                output.src = reader.result;
+                output.style.display = 'block';
+                getElementById('text').style.display = 'none';
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
 </body>
 </html>
